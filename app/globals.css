@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #ffffff; /* White background */
+  --foreground: #000000; /* Black text */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #000000; /* Black background for dark mode */
+    --foreground: #ffffff; /* White text for dark mode */
   }
 }
 
@@ -18,4 +18,55 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  margin: 0; /* Remove default margin */
+  padding: 20px; /* Add padding to the body */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 10px 0; /* Add margin to headings */
+}
+
+p {
+  margin: 10px 0; /* Add margin to paragraphs */
+}
+
+.container {
+  max-width: 1200px; /* Set a max width for the container */
+  margin: 0 auto; /* Center the container */
+  padding: 20px; /* Add padding to the container */
+  background-color: var(--background); /* Ensure background color is consistent */
+  border: 1px solid var(--foreground); /* Optional: Add a border for contrast */
+  border-radius: 8px; /* Optional: Add rounded corners */
+}
+
+input, button {
+  padding: 10px; /* Add padding to inputs and buttons */
+  border: 1px solid var(--foreground); /* Border color */
+  border-radius: 4px; /* Rounded corners */
+}
+
+button {
+  background-color: var(--foreground); /* Button background */
+  color: var(--background); /* Button text color */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+button:hover {
+  background-color: #444; /* Darker shade on hover */
+}
+
+table {
+  width: 100%; /* Full width for tables */
+  border-collapse: collapse; /* Collapse borders */
+}
+
+th, td {
+  border: 1px solid var(--foreground); /* Table cell border */
+  padding: 10px; /* Padding for table cells */
+  text-align: left; /* Left align text */
+}
+
+th {
+  background-color: var(--foreground); /* Header background */
+  color: var(--background); /* Header text color */
 }
