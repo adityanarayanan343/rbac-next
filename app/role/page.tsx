@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -7,12 +8,11 @@ type Role = {
   description: string;
 };
 
-export default function RolesPage() {
+export default function ManageRoles() {
   const [roles, setRoles] = useState<Role[]>([]);
   const [newRole, setNewRole] = useState({ name: '', description: '' });
   const [editingRole, setEditingRole] = useState<Role | null>(null);
 
-  // Fetch roles
   useEffect(() => {
     const fetchRoles = async () => {
       const response = await axios.get('/api/roles');
@@ -21,16 +21,19 @@ export default function RolesPage() {
     fetchRoles();
   }, []);
 
-  // Add role
   const handleAddRole = async () => {
     if (newRole.name && newRole.description) {
+      try{
       const response = await axios.post('/api/roles', newRole);
       setRoles([...roles, response.data]);
       setNewRole({ name: '', description: '' });
+      }
+      catch(error){
+        console.error(error);
+      }
     }
   };
 
-  // Update role
   const handleUpdateRole = async (id: number) => {
     if (editingRole) {
       const response = await axios.put(`/api/roles/${id}`, editingRole);
@@ -39,17 +42,19 @@ export default function RolesPage() {
     }
   };
 
-  // Delete role
   const handleDeleteRole = async (id: number) => {
+    try{
     await axios.delete(`/api/roles/${id}`);
     setRoles(roles.filter((role) => role.id !== id));
+    }
+    catch(error){
+      console.error(error);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6 text-black">
       <h1 className="text-3xl font-bold mb-6">Manage Roles</h1>
-
-      {/* Add Role */}
       <div className="bg-white p-4 shadow rounded-lg mb-6">
         <h2 className="text-xl font-semibold mb-4">Add New Role</h2>
         <div className="flex gap-4">
@@ -77,8 +82,6 @@ export default function RolesPage() {
           </button>
         </div>
       </div>
-
-      {/* Roles List */}
       <div className="bg-white p-4 shadow rounded-lg">
         <h2 className="text-xl font-semibold mb-4">Roles List</h2>
         <table className="w-full table-auto border-collapse">
@@ -91,7 +94,7 @@ export default function RolesPage() {
             </tr>
           </thead>
           <tbody>
-            {roles.map((role) => (
+            {roles.map(role => (
               <tr key={role.id}>
                 <td className="border p-2">{role.id}</td>
                 <td className="border p-2">

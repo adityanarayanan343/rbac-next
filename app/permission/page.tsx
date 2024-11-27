@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -7,7 +8,7 @@ type Permission = {
   description: string;
 };
 
-export default function PermissionsPage() {
+export default function ManagePermissions() {
   const [permissions, setPermissions] = useState<Permission[]>([]);
   const [newPermission, setNewPermission] = useState({ name: '', description: '' });
   const [editingPermission, setEditingPermission] = useState<Permission | null>(null);

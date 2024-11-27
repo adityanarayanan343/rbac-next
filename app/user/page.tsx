@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -8,12 +9,11 @@ type User = {
   roles: { roleId: number }[];
 };
 
-export default function UsersPage() {
+export default function ManageUsers() {
   const [users, setUsers] = useState<User[]>([]);
   const [newUser, setNewUser] = useState({ name: '', email: '', roles: [] });
   const [editingUser, setEditingUser] = useState<User | null>(null);
 
-  // Fetch users
   useEffect(() => {
     const fetchUsers = async () => {
       const response = await axios.get('/api/users');
@@ -22,16 +22,20 @@ export default function UsersPage() {
     fetchUsers();
   }, []);
 
-  // Add user
   const handleAddUser = async () => {
     if (newUser.name && newUser.email) {
+      try{
+       
       const response = await axios.post('/api/users', newUser);
       setUsers([...users, response.data]);
-      setNewUser({ name: '', email: '', roles: [] });
+      setNewUser({ name: '', email: '', roles: [] }); 
+      }
+    catch(error){
+      console.error(error)
+    }
     }
   };
 
-  // Update user
   const handleUpdateUser = async (id: number) => {
     if (editingUser) {
       const response = await axios.put(`/api/users/${id}`, editingUser);
@@ -40,17 +44,14 @@ export default function UsersPage() {
     }
   };
 
-  // Delete user
   const handleDeleteUser = async (id: number) => {
     await axios.delete(`/api/users/${id}`);
     setUsers(users.filter((user) => user.id !== id));
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-gray-100 p-6 text-black">
       <h1 className="text-3xl font-bold mb-6">Manage Users</h1>
-
-      {/* Add User */}
       <div className="bg-white p-4 shadow rounded-lg mb-6">
         <h2 className="text-xl font-semibold mb-4">Add New User</h2>
         <div className="flex gap-4">
@@ -76,8 +77,6 @@ export default function UsersPage() {
           </button>
         </div>
       </div>
-
-      {/* Users List */}
       <div className="bg-white p-4 shadow rounded-lg">
         <h2 className="text-xl font-semibold mb-4">Users List</h2>
         <table className="w-full table-auto border-collapse">
